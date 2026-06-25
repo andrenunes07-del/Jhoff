@@ -7,7 +7,7 @@ export default function Nav() {
 
   return (
     <nav>
-      <div className="logo">Grupo <em>Nunes</em></div>
+      <div className="logo"><em>Willy</em></div>
       <button className="nav-btn" onClick={scrollToSim}>Simular economia →</button>
     </nav>
   )
