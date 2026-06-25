@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --app --no-tailwind --no-eslint --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm --version)",
+      "Read(//Users/andrenunes/.nvm/versions/**)",
+      "Read(//usr/local/bin/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//usr/**)",
+      "Read(//Users/andrenunes/.volta/**)",
+      "Read(//Users/andrenunes/**)"
+    ]
+  }
+}
