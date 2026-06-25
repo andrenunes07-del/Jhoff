@@ -1,7 +1,7 @@
 'use client'
 
 export default function CTA() {
-  const handleCTA = () => alert('Entre em contato com a equipe do Grupo Nunes para contratar.')
+  const handleCTA = () => alert('Entre em contato com a equipe do Willy para contratar.')
 
   return (
     <section className="cta-outer">

@@ -362,7 +362,7 @@ export default function Simulator({ onRoiChange }: SimulatorProps) {
 
           <div className="plano">
             <div className="plano-l">
-              <strong>Plano Grupo Nunes — até 3.000 clientes</strong>
+              <strong>Plano Willy — até 3.000 clientes</strong>
               <span>Distribuição completa de ebooks e audiobooks. Ativação imediata, sem fidelidade.</span>
             </div>
             <div className="plano-r">
