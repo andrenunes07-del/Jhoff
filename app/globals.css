@@ -431,6 +431,44 @@ input[type="range"]::-moz-range-thumb {
 .feat { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text2); }
 .fdot { width: 5px; height: 5px; border-radius: 50%; background: var(--cy); box-shadow: 0 0 8px var(--cy); flex-shrink: 0; }
 
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-box {
+  position: relative;
+  background: #0e1114; border: 1px solid var(--line);
+  width: 100%; max-width: 460px;
+  padding: 40px 36px; border-radius: 4px;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  background: none; border: none; color: var(--text3);
+  font-size: 18px; cursor: pointer; line-height: 1;
+}
+.modal-close:hover { color: var(--text); }
+.modal-box h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.modal-box > p { font-size: 14px; color: var(--text2); margin-bottom: 28px; }
+.modal-form { display: flex; flex-direction: column; gap: 16px; }
+.modal-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); }
+.modal-form input {
+  background: #161a1e; border: 1px solid var(--line);
+  color: var(--text); font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; padding: 12px 14px; outline: none;
+  transition: border-color 0.15s;
+}
+.modal-form input:focus { border-color: var(--cy); }
+.modal-form .btn-cy { margin-top: 8px; width: 100%; justify-content: center; }
+.modal-form .btn-cy:disabled { opacity: 0.6; cursor: not-allowed; }
+.modal-error { font-size: 13px; color: #ff5555; }
+.modal-success { text-align: center; padding: 20px 0; }
+.modal-success-icon { font-size: 48px; color: var(--cy); margin-bottom: 16px; }
+.modal-success h3 { font-size: 22px; margin-bottom: 10px; }
+.modal-success p { font-size: 14px; color: var(--text2); margin-bottom: 28px; line-height: 1.7; }
+
 /* FOOTER */
 footer {
   max-width: 1200px; margin: 0 auto; padding: 22px 52px;
