@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import LeadModal from './LeadModal'
-import type { SimData } from '@/app/page'
+import type { SimData } from '@/types/simData'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -50,8 +50,6 @@ interface Result {
   dAc: number[]
   ctx: string
 }
-
-import type { SimData } from '@/app/page'
 
 interface SimulatorProps {
   onRoiChange: (roi: string) => void
