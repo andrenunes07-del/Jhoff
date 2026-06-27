@@ -41,6 +41,7 @@ export default function LeadModal({ onClose }: Props) {
             <div className="modal-success-icon">✓</div>
             <h3>Interesse registrado!</h3>
             <p>Enviamos uma confirmação para <strong>{form.email}</strong>.<br />Nossa equipe entrará em contato em breve.</p>
+            <p className="modal-spam-hint">Não encontrou o e-mail? Verifique sua caixa de <strong>spam</strong>.</p>
             <button className="btn-cy" onClick={onClose}>Fechar</button>
           </div>
         ) : (
@@ -61,6 +62,9 @@ export default function LeadModal({ onClose }: Props) {
               <button className="btn-cy" type="submit" disabled={status === 'loading'}>
                 {status === 'loading' ? 'Enviando...' : 'Confirmar interesse →'}
               </button>
+              <p className="modal-spam-hint">
+                📧 Um e-mail de confirmação será enviado para o endereço informado. Caso não encontre, verifique a caixa de <strong>spam</strong>.
+              </p>
             </form>
           </>
         )}
