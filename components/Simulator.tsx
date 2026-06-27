@@ -126,7 +126,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
 
     setResult(r)
     onRoiChange('×' + roi.toFixed(1).replace('.', ',') + ' no 1º mês')
-    const sd: SimData = { clientes, ticket, aliquota, pctSva, valorEbook: 0, eco, ecoAnual, roi, ecoPct }
+    const sd: SimData = { clientes, ticket, aliquota, pctSva, valorEbook: 0, crescimento, eco, ecoAnual, roi, ecoPct }
     onResult(sd)
     setSimData(sd)
 
