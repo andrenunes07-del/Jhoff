@@ -444,6 +444,8 @@ input[type="range"]::-moz-range-thumb {
 .sim-cta-text { font-size: 15px; color: var(--text2); line-height: 1.6; }
 .sim-cta-text strong { color: var(--text); }
 .cta-sim-hint { font-size: 13px; color: var(--text3); margin-top: 10px; }
+.cta-sim-hint--active { color: var(--cy); font-weight: 500; animation: fadeInUp .3s ease; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ── MODAL SIM SUMMARY ── */
 .modal-sim-summary {

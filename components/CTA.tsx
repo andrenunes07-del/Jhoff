@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import LeadModal from './LeadModal'
-import type { SimData } from '@/app/page'
+import type { SimData } from '@/types/simData'
 
 interface CTAProps {
   simData: SimData | null
@@ -10,10 +10,19 @@ interface CTAProps {
 
 export default function CTA({ simData }: CTAProps) {
   const [open, setOpen] = useState(false)
+  const [hint, setHint] = useState(false)
+
+  const scrollToSim = () => {
+    const el = document.getElementById('simulador')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    else window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const handleClick = () => {
     if (!simData) {
-      document.getElementById('simulador')?.scrollIntoView({ behavior: 'smooth' })
+      setHint(true)
+      setTimeout(() => setHint(false), 4000)
+      scrollToSim()
     } else {
       setOpen(true)
     }
@@ -33,10 +42,12 @@ export default function CTA({ simData }: CTAProps) {
               suporte.
             </p>
             <button className="btn-cy" onClick={handleClick}>
-              {simData ? 'Quero contratar agora →' : 'Simule sua economia primeiro →'}
+              Quero contratar agora →
             </button>
-            {!simData && (
-              <p className="cta-sim-hint">Calcule quanto você economiza antes de contratar.</p>
+            {hint && (
+              <p className="cta-sim-hint cta-sim-hint--active">
+                ↑ Para contratar, primeiro simule sua economia acima — leva menos de 1 minuto.
+              </p>
             )}
           </div>
           <div className="cta-right">
@@ -56,7 +67,7 @@ export default function CTA({ simData }: CTAProps) {
               <div className="feat"><span className="fdot" />Suporte para enquadramento tributário</div>
             </div>
             <button className="btn-li" onClick={handleClick}>
-              {simData ? 'Começar agora →' : 'Simular economia →'}
+              Começar agora →
             </button>
           </div>
         </div>
