@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { SimData } from '@/app/page'
+import type { SimData } from '@/types/simData'
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpPCr0Nmodg0JAxp5dDHGN6Rb7wKky4kIdVgDpSEGs5oJ9F0MA_zdk1A0g2rxw1eSB/exec'
 
@@ -45,7 +45,7 @@ export default function LeadModal({ onClose, simData }: Props) {
             <div className="modal-success-icon">✓</div>
             <h3>Interesse registrado!</h3>
             <p>Enviamos uma confirmação para <strong>{form.email}</strong>.<br />Nossa equipe entrará em contato em breve.</p>
-            <p className="modal-spam-hint">Não encontrou o e-mail? Verifique sua caixa de <strong>spam</strong>.</p>
+            <p className="modal-spam-hint">📬 Como este é nosso primeiro contato, o email de confirmação pode ter caído na caixa de <strong>spam</strong> ou <strong>promoções</strong>. Vale dar uma olhada por lá antes de aguardar na caixa principal.</p>
             <button className="btn-cy" onClick={onClose}>Fechar</button>
           </div>
         ) : (
