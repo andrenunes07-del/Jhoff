@@ -334,6 +334,8 @@ input[type="range"]::-moz-range-thumb {
 .crow .cv.grn { color: var(--li); text-shadow: 0 0 14px var(--li-glow); }
 
 .eco { border-bottom: 1px solid var(--line); background: var(--bg); }
+.eco-extra { background: #050e08; border-top: 1px solid rgba(126,200,32,0.2); border-bottom: 1px solid rgba(126,200,32,0.15); }
+.eco-extra-label { max-width: 1200px; margin: 0 auto; padding: 18px 52px 0; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--li); font-family: 'Space Mono', monospace; }
 .eco-in { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); }
 
 .ecell {

@@ -49,6 +49,10 @@ interface Result {
   dCom: number[]
   dAc: number[]
   ctx: string
+  receitaExtra: number
+  receitaExtraAnual: number
+  ganhoTotal: number
+  ganhoTotalAnual: number
 }
 
 interface SimulatorProps {
@@ -62,7 +66,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
   const [aliquota, setAliquota]       = useState(8)
   const [crescimento, setCrescimento] = useState(30)
   const [pctSva, setPctSva]           = useState(30)
-  const [valorEbook, setValorEbook]   = useState(0)
+  const [valorEbookStr, setValorEbookStr] = useState('0')
   const [result, setResult]           = useState<Result | null>(null)
   const [modalOpen, setModalOpen]     = useState(false)
   const [simData, setSimData]         = useState<SimData | null>(null)
@@ -82,6 +86,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
   function calcular() {
     if (!clientes || !ticket) { alert('Preencha clientes e ticket médio.'); return }
 
+    const valorEbook = parseFloat(valorEbookStr) || 0
     const aliq   = aliquota / 100
     const pSVA   = pctSva / 100
     const pSCM   = 1 - pSVA
@@ -96,7 +101,9 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
     const ecoPct = Math.round(eco / impSem * 100)
     const roi    = eco / 498
 
-    let totSem = 0, totCom = 0, ecoAc = 0
+    const receitaExtra = clientes * valorEbook
+
+    let totSem = 0, totCom = 0, ecoAc = 0, recExtraAnual = 0
     const labels: string[] = [], dSem: number[] = [], dCom: number[] = [], dAc: number[] = []
 
     for (let m = 1; m <= 12; m++) {
@@ -105,6 +112,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
       const iS  = f * aliq
       const iC  = f * pSCM * aliq
       totSem += iS; totCom += iC; ecoAc += (iS - iC)
+      recExtraAnual += cli * valorEbook
       labels.push('M' + m)
       dSem.push(Math.round(iS))
       dCom.push(Math.round(iC))
@@ -113,6 +121,8 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
 
     const cli12   = clientes + 11 * crescimento
     const ecoAnual = totSem - totCom
+    const ganhoTotal = eco + receitaExtra
+    const ganhoTotalAnual = ecoAnual + recExtraAnual
 
     const r: Result = {
       fat, aliq, impSem, liqSem, scm, sva, impCom, liqCom,
@@ -121,6 +131,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
       pctSVA: pSVA, pctSCM: pSCM,
       labels, dSem, dCom, dAc,
       ctx: `${clientes.toLocaleString('pt-BR')} clientes · ticket ${fmt(ticket)} · alíquota ${aliquota.toFixed(1)}% · ${pctSva}% SVA`,
+      receitaExtra, receitaExtraAnual: recExtraAnual, ganhoTotal, ganhoTotalAnual,
     }
 
     setResult(r)
@@ -308,12 +319,16 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
             <div className="irow">
               <span className="px">R$</span>
               <input
-                type="number" className="pi" min={0} value={valorEbook}
-                onChange={(e) => setValorEbook(parseFloat(e.target.value) || 0)}
+                type="number" className="pi" min={0} value={valorEbookStr}
+                onChange={(e) => setValorEbookStr(e.target.value)}
+                onBlur={(e) => {
+                  const v = parseFloat(e.target.value)
+                  setValorEbookStr(isNaN(v) ? '0' : String(v))
+                }}
               />
             </div>
             <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 6, fontFamily: "'Space Mono', monospace", lineHeight: 1.5 }}>
-              Deixe R$ 0 se incluído no plano. A economia vem da reclassificação.
+              Deixe R$ 0 se incluído no plano. Adicione valor para ver o lucro extra além da economia fiscal.
             </div>
           </div>
 
@@ -367,6 +382,29 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
               </div>
             </div>
           </div>
+
+          {result.receitaExtra > 0 && (
+            <div className="eco eco-extra">
+              <div className="eco-extra-label">+ receita adicional do SVA</div>
+              <div className="eco-in">
+                <div className="ecell">
+                  <div className="el">Receita extra mensal</div>
+                  <div className="en grn">{fmt(result.receitaExtra)}</div>
+                  <div className="ed">{fmt(parseFloat(valorEbookStr) || 0)} × {result.eco > 0 ? clientes.toLocaleString('pt-BR') : '—'} clientes</div>
+                </div>
+                <div className="ecell">
+                  <div className="el">Ganho total mensal</div>
+                  <div className="en grn">{fmt(result.ganhoTotal)}</div>
+                  <div className="ed">economia fiscal + receita SVA</div>
+                </div>
+                <div className="ecell">
+                  <div className="el">Ganho total anual</div>
+                  <div className="en grn">{fmtK(result.ganhoTotalAnual)}</div>
+                  <div className="ed">projetado com crescimento da base</div>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="plano">
             <div className="plano-l">
