@@ -45,7 +45,10 @@ export default function LeadModal({ onClose, simData }: Props) {
             <div className="modal-success-icon">✓</div>
             <h3>Interesse registrado!</h3>
             <p>Enviamos uma confirmação para <strong>{form.email}</strong>.<br />Nossa equipe entrará em contato em breve.</p>
-            <p className="modal-spam-hint">📬 Como este é nosso primeiro contato, o email de confirmação pode ter caído na caixa de <strong>spam</strong> ou <strong>promoções</strong>. Vale dar uma olhada por lá antes de aguardar na caixa principal.</p>
+            <div className="modal-spam-hint">
+              <span className="spam-icon">⚠️</span>
+              <span>Como este é nosso primeiro contato, o e-mail de confirmação pode ter caído em <strong>spam</strong> ou <strong>promoções</strong>. Verifique essas pastas antes de aguardar na caixa principal.</span>
+            </div>
             <button className="btn-cy" onClick={onClose}>Fechar</button>
           </div>
         ) : (
@@ -100,9 +103,10 @@ export default function LeadModal({ onClose, simData }: Props) {
               <button className="btn-cy" type="submit" disabled={status === 'loading'}>
                 {status === 'loading' ? 'Enviando...' : 'Confirmar interesse →'}
               </button>
-              <p className="modal-spam-hint">
-                📧 Um e-mail de confirmação será enviado para o endereço informado. Caso não encontre, verifique a caixa de <strong>spam</strong>.
-              </p>
+              <div className="modal-spam-hint">
+                <span className="spam-icon">⚠️</span>
+                <span>Um e-mail de confirmação será enviado ao endereço informado. Caso não receba, verifique a caixa de <strong>spam</strong> ou <strong>promoções</strong>.</span>
+              </div>
             </form>
           </>
         )}

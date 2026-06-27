@@ -504,7 +504,20 @@ input[type="range"]::-moz-range-thumb {
 .modal-form .btn-cy { margin-top: 8px; width: 100%; justify-content: center; }
 .modal-form .btn-cy:disabled { opacity: 0.6; cursor: not-allowed; }
 .modal-error { font-size: 13px; color: #ff5555; }
-.modal-spam-hint { font-size: 12px; color: var(--text3); line-height: 1.6; text-align: center; margin-top: 4px; }
+.modal-spam-hint {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: rgba(255, 80, 80, 0.08);
+  border: 1px solid rgba(255, 80, 80, 0.35);
+  border-left: 3px solid #ff5050;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 16px;
+  font-size: 13px; color: #ffaaaa; line-height: 1.6;
+}
+.modal-spam-hint .spam-icon {
+  font-size: 18px; flex-shrink: 0; margin-top: 1px;
+}
+.modal-spam-hint strong { color: #ff7070; }
 .modal-success { text-align: center; padding: 20px 0; }
 .modal-success-icon { font-size: 48px; color: var(--cy); margin-bottom: 16px; }
 .modal-success h3 { font-size: 22px; margin-bottom: 10px; }
