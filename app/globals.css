@@ -518,10 +518,12 @@ input[type="range"]::-moz-range-thumb {
   font-size: 18px; flex-shrink: 0; margin-top: 1px;
 }
 .modal-spam-hint strong { color: #ff7070; }
-.modal-success { text-align: center; padding: 20px 0; }
+.modal-success { text-align: center; padding: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 0; }
 .modal-success-icon { font-size: 48px; color: var(--cy); margin-bottom: 16px; }
 .modal-success h3 { font-size: 22px; margin-bottom: 10px; }
-.modal-success p { font-size: 14px; color: var(--text2); margin-bottom: 28px; line-height: 1.7; }
+.modal-success > p { font-size: 14px; color: var(--text2); margin-bottom: 20px; line-height: 1.7; }
+.modal-success .modal-spam-hint { margin-bottom: 24px; text-align: left; }
+.modal-success .btn-cy { margin-top: 0; }
 
 /* FOOTER */
 footer {
