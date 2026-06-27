@@ -9,4 +9,6 @@ export interface SimData {
   ecoAnual: number
   roi: number
   ecoPct: number
+  nPlanos: number
+  custoPlano: number
 }

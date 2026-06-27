@@ -41,6 +41,8 @@ interface Result {
   ecoPct: number
   ecoAnual: number
   roi: number
+  nPlanos: number
+  custoPlano: number
   cli12: number
   totSem: number
   totCom: number
@@ -95,9 +97,11 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
     const impCom = scm * aliq
     const liqCom = fat - impCom
 
-    const eco    = impSem - impCom
-    const ecoPct = Math.round(eco / impSem * 100)
-    const roi    = eco / 498
+    const eco      = impSem - impCom
+    const ecoPct   = Math.round(eco / impSem * 100)
+    const nPlanos  = Math.ceil(clientes / 3000)
+    const custoPlano = nPlanos * 498
+    const roi      = eco / custoPlano
 
     let totSem = 0, totCom = 0
     const labels: string[] = [], dSem: number[] = [], dCom: number[] = [], dAc: number[] = []
@@ -119,7 +123,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
 
     const r: Result = {
       fat, aliq, impSem, liqSem, scm, sva, impCom, liqCom,
-      eco, ecoPct, ecoAnual, roi, cli12,
+      eco, ecoPct, ecoAnual, roi, nPlanos, custoPlano, cli12,
       totSem, totCom,
       pctSVA: pSVA, pctSCM: pSCM,
       labels, dSem, dCom, dAc,
@@ -128,7 +132,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
 
     setResult(r)
     onRoiChange('×' + roi.toFixed(1).replace('.', ',') + ' no 1º mês')
-    const sd: SimData = { clientes, ticket, aliquota, pctSva, valorEbook: 0, crescimento, eco, ecoAnual, roi, ecoPct }
+    const sd: SimData = { clientes, ticket, aliquota, pctSva, valorEbook: 0, crescimento, eco, ecoAnual, roi, ecoPct, nPlanos, custoPlano }
     onResult(sd)
     setSimData(sd)
 
@@ -359,13 +363,21 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
 
           <div className="plano">
             <div className="plano-l">
-              <strong>Plano Willy — até 3.000 clientes</strong>
-              <span>Distribuição completa de ebooks e audiobooks. Ativação imediata, sem fidelidade.</span>
+              <strong>
+                {result.nPlanos === 1
+                  ? 'Plano Willy — até 3.000 clientes'
+                  : `${result.nPlanos}× Plano Willy — ${result.nPlanos * 3000} clientes`}
+              </strong>
+              <span>
+                {result.nPlanos > 1
+                  ? `Sua base ultrapassa ${(result.nPlanos - 1) * 3000} clientes, por isso são necessários ${result.nPlanos} planos.`
+                  : 'Distribuição completa de ebooks e audiobooks. Ativação imediata, sem fidelidade.'}
+              </span>
             </div>
             <div className="plano-r">
               <div className="pval">
-                <div className="pvl">Mensalidade</div>
-                <div className="pvn">R$ 498</div>
+                <div className="pvl">Mensalidade{result.nPlanos > 1 ? ` (${result.nPlanos}×)` : ''}</div>
+                <div className="pvn">R$ {result.custoPlano.toLocaleString('pt-BR')}</div>
                 <div className="pvs">por mês</div>
               </div>
               <div className="vsep" />

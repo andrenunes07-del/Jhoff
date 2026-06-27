@@ -79,6 +79,10 @@ export default function LeadModal({ onClose, simData }: Props) {
                   <strong>{fmt(simData.valorEbook)}</strong>
                 </div>
               )}
+              <div className="mss-row">
+                <span>Planos necessários</span>
+                <strong>{simData.nPlanos}× plano{simData.nPlanos > 1 ? 's' : ''} — R$ {simData.custoPlano.toLocaleString('pt-BR')}/mês</strong>
+              </div>
               <div className="mss-row highlight">
                 <span>Economia mensal</span>
                 <strong className="grn">{fmt(simData.eco)}</strong>

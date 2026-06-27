@@ -53,7 +53,7 @@ export default function CTA({ simData }: CTAProps) {
           <div className="cta-right">
             <div className="price-box">
               <div className="pb-l">Mensalidade fixa</div>
-              <div className="pb-v">R$ 498</div>
+              <div className="pb-v">R$ 498 <span style={{fontSize:'13px', fontWeight:400}}>/plano</span></div>
               <div className="pb-p">por mês</div>
               <div className="pb-s">Para bases de até 3.000 clientes ativos</div>
               <div className="pb-custo">
