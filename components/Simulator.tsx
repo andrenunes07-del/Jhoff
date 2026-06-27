@@ -7,7 +7,9 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  BarController,
   BarElement,
+  LineController,
   LineElement,
   PointElement,
   Filler,
@@ -16,7 +18,7 @@ import {
 } from 'chart.js'
 import { Chart } from 'react-chartjs-2'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Filler, Tooltip)
+ChartJS.register(CategoryScale, LinearScale, BarController, BarElement, LineController, LineElement, PointElement, Filler, Tooltip)
 
 const fmt  = (v: number) => 'R$ ' + Math.round(v).toLocaleString('pt-BR')
 const fmtK = (v: number) =>
