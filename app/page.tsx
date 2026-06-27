@@ -8,20 +8,9 @@ import Strip from '@/components/Strip'
 import HowItWorks from '@/components/HowItWorks'
 import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
+import type { SimData } from '@/types/simData'
 
 const Simulator = dynamic(() => import('@/components/Simulator'), { ssr: false })
-
-export interface SimData {
-  clientes: number
-  ticket: number
-  aliquota: number
-  pctSva: number
-  valorEbook: number
-  eco: number
-  ecoAnual: number
-  roi: number
-  ecoPct: number
-}
 
 export default function Home() {
   const [heroRoi, setHeroRoi] = useState('')
