@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import LeadModal from './LeadModal'
+import type { SimData } from '@/app/page'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -49,11 +51,14 @@ interface Result {
   ctx: string
 }
 
+import type { SimData } from '@/app/page'
+
 interface SimulatorProps {
   onRoiChange: (roi: string) => void
+  onResult: (data: SimData) => void
 }
 
-export default function Simulator({ onRoiChange }: SimulatorProps) {
+export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
   const [clientes, setClientes]       = useState(1000)
   const [ticket, setTicket]           = useState(100)
   const [aliquota, setAliquota]       = useState(8)
@@ -61,6 +66,8 @@ export default function Simulator({ onRoiChange }: SimulatorProps) {
   const [pctSva, setPctSva]           = useState(30)
   const [valorEbook, setValorEbook]   = useState(0)
   const [result, setResult]           = useState<Result | null>(null)
+  const [modalOpen, setModalOpen]     = useState(false)
+  const [simData, setSimData]         = useState<SimData | null>(null)
 
   const aliqLabel = aliquota <= 5
     ? 'Simples Nacional — Anexo I'
@@ -120,6 +127,9 @@ export default function Simulator({ onRoiChange }: SimulatorProps) {
 
     setResult(r)
     onRoiChange('×' + roi.toFixed(1).replace('.', ',') + ' no 1º mês')
+    const sd: SimData = { clientes, ticket, aliquota, pctSva, valorEbook, eco, ecoAnual, roi, ecoPct }
+    onResult(sd)
+    setSimData(sd)
 
     setTimeout(() => {
       document.getElementById('resultado')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -427,7 +437,20 @@ export default function Simulator({ onRoiChange }: SimulatorProps) {
               Consulte seu contador.
             </div>
           </div>
+
+          <div className="sim-cta">
+            <div className="sim-cta-text">
+              <strong>Gostou do resultado?</strong> Fale com nossa equipe e ative o plano ainda este mês.
+            </div>
+            <button className="btn-cy" onClick={() => setModalOpen(true)}>
+              Quero contratar agora →
+            </button>
+          </div>
         </div>
+      )}
+
+      {modalOpen && simData && (
+        <LeadModal simData={simData} onClose={() => setModalOpen(false)} />
       )}
     </section>
   )

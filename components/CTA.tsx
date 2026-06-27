@@ -2,9 +2,22 @@
 
 import { useState } from 'react'
 import LeadModal from './LeadModal'
+import type { SimData } from '@/app/page'
 
-export default function CTA() {
+interface CTAProps {
+  simData: SimData | null
+}
+
+export default function CTA({ simData }: CTAProps) {
   const [open, setOpen] = useState(false)
+
+  const handleClick = () => {
+    if (!simData) {
+      document.getElementById('simulador')?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      setOpen(true)
+    }
+  }
 
   return (
     <>
@@ -19,9 +32,12 @@ export default function CTA() {
               Ativação imediata. Sem mudança operacional. Você já tem a base — nós temos o produto e o
               suporte.
             </p>
-            <button className="btn-cy" onClick={() => setOpen(true)}>
-              Quero contratar agora →
+            <button className="btn-cy" onClick={handleClick}>
+              {simData ? 'Quero contratar agora →' : 'Simule sua economia primeiro →'}
             </button>
+            {!simData && (
+              <p className="cta-sim-hint">Calcule quanto você economiza antes de contratar.</p>
+            )}
           </div>
           <div className="cta-right">
             <div className="price-box">
@@ -39,13 +55,13 @@ export default function CTA() {
               <div className="feat"><span className="fdot" />Ativação imediata após contratação</div>
               <div className="feat"><span className="fdot" />Suporte para enquadramento tributário</div>
             </div>
-            <button className="btn-li" onClick={() => setOpen(true)}>
-              Começar agora →
+            <button className="btn-li" onClick={handleClick}>
+              {simData ? 'Começar agora →' : 'Simular economia →'}
             </button>
           </div>
         </div>
       </section>
-      {open && <LeadModal onClose={() => setOpen(false)} />}
+      {open && simData && <LeadModal simData={simData} onClose={() => setOpen(false)} />}
     </>
   )
 }

@@ -431,6 +431,35 @@ input[type="range"]::-moz-range-thumb {
 .feat { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text2); }
 .fdot { width: 5px; height: 5px; border-radius: 50%; background: var(--cy); box-shadow: 0 0 8px var(--cy); flex-shrink: 0; }
 
+/* ── SIM CTA ── */
+.sim-cta {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; margin-top: 40px;
+  padding: 28px 32px;
+  background: #0c1014; border: 1px solid var(--line);
+  border-left: 3px solid var(--cy);
+}
+.sim-cta-text { font-size: 15px; color: var(--text2); line-height: 1.6; }
+.sim-cta-text strong { color: var(--text); }
+.cta-sim-hint { font-size: 13px; color: var(--text3); margin-top: 10px; }
+
+/* ── MODAL SIM SUMMARY ── */
+.modal-sim-summary {
+  background: #0c1014; border: 1px solid var(--line);
+  padding: 16px 18px; margin-bottom: 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.mss-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; color: var(--text2);
+  padding-bottom: 8px; border-bottom: 1px solid #111820;
+}
+.mss-row:last-child { border-bottom: none; padding-bottom: 0; }
+.mss-row strong { color: var(--text); font-size: 13px; }
+.mss-row.highlight { margin-top: 4px; }
+.mss-row.highlight span { color: var(--text); font-weight: 600; }
+.mss-row.highlight strong { font-size: 15px; }
+
 /* ── MODAL ── */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 999;
