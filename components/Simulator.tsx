@@ -93,36 +93,36 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
     const pSVA  = pctSva / 100
     const pSCM  = 1 - pSVA
 
-    // Sem SVA: faturamento base, todo tributado
+    // Sem SVA: ticket atual, faturamento todo tributado
     const fat    = clientes * ticket
     const impSem = fat * aliq
     const liqSem = fat - impSem
 
-    // Com SVA: faturamento base + receita extra do valorEbook (100% SVA = isenta)
-    const receitaExtra = clientes * valorEbook
-    const fatCom = fat + receitaExtra
-    const scm    = fat * pSCM                 // parcela SCM do ticket base (tributável)
-    const sva    = fat * pSVA + receitaExtra   // parcela SVA base + valor extra (isenta)
-    const impCom = scm * aliq                  // imposto só sobre SCM
-    const liqCom = fatCom - impCom             // receita líquida total com SVA
+    // Com SVA: novo ticket (base + valorEbook), 30% SVA sobre o total
+    const ticketCom  = ticket + valorEbook
+    const fatCom     = clientes * ticketCom
+    const scm        = fatCom * pSCM
+    const sva        = fatCom * pSVA
+    const impCom     = scm * aliq
+    const liqCom     = fatCom - impCom
+    const receitaExtra = clientes * valorEbook  // aumento de faturamento
 
     const eco    = impSem - impCom
     const ecoPct = Math.round(eco / impSem * 100)
-    const ganhoTotal = liqCom - liqSem         // ganho real = eco fiscal + receita extra
+    const ganhoTotal = liqCom - liqSem
     const roi    = eco / 498
 
-    let totSem = 0, totCom = 0, ganhoAcAnual = 0, recExtraAnual = 0
+    let totSem = 0, totCom = 0, recExtraAnual = 0
     const labels: string[] = [], dSem: number[] = [], dCom: number[] = [], dAc: number[] = []
 
     for (let m = 1; m <= 12; m++) {
-      const cli  = clientes + (m - 1) * crescimento
-      const f    = cli * ticket
-      const iS   = f * aliq
-      const iC   = f * pSCM * aliq
-      const rExt = cli * valorEbook
+      const cli = clientes + (m - 1) * crescimento
+      const fS  = cli * ticket
+      const fC  = cli * ticketCom
+      const iS  = fS * aliq
+      const iC  = fC * pSCM * aliq
       totSem += iS; totCom += iC
-      ganhoAcAnual += (iS - iC) + rExt
-      recExtraAnual += rExt
+      recExtraAnual += cli * valorEbook
       labels.push('M' + m)
       dSem.push(Math.round(iS))
       dCom.push(Math.round(iC))
@@ -131,7 +131,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
 
     const cli12          = clientes + 11 * crescimento
     const ecoAnual       = totSem - totCom
-    const ganhoTotalAnual = ganhoAcAnual
+    const ganhoTotalAnual = ecoAnual + recExtraAnual
 
     const r: Result = {
       fat, fatCom, aliq, impSem, liqSem, scm, sva, impCom, liqCom,
@@ -366,10 +366,11 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
             <div className="cmp-col">
               <div className="ctitle cy">// com SVA — após reclassificação</div>
               {result.valorEbook > 0 && (
-                <div className="crow"><span className="cl">Faturamento total (+ SVA)</span><span className="cv grn">{fmt(result.fatCom)}</span></div>
+                <div className="crow"><span className="cl">Novo ticket médio</span><span className="cv grn">{fmt(result.fatCom / clientes)} (+{fmt(result.valorEbook)} SVA)</span></div>
               )}
-              <div className="crow"><span className="cl">Receita SCM (tributável)</span><span className="cv">{fmt(result.scm)} ({Math.round(result.pctSCM * 100)}%)</span></div>
-              <div className="crow"><span className="cl">Receita SVA (isenta)</span><span className="cv grn">{fmt(result.sva)}{result.valorEbook > 0 ? ` · inclui ${fmt(result.receitaExtra)} extra` : ` (${Math.round(result.pctSVA * 100)}%)`}</span></div>
+              <div className="crow"><span className="cl">Faturamento mensal</span><span className="cv grn">{fmt(result.fatCom)}</span></div>
+              <div className="crow"><span className="cl">Receita SCM — {Math.round(result.pctSCM * 100)}% (tributável)</span><span className="cv">{fmt(result.scm)}</span></div>
+              <div className="crow"><span className="cl">Receita SVA — {Math.round(result.pctSVA * 100)}% (isenta)</span><span className="cv grn">{fmt(result.sva)}</span></div>
               <div className="crow"><span className="cl">Imposto mensal</span><span className="cv red">{fmt(result.impCom)}</span></div>
               <div className="crow"><span className="cl">Receita líquida</span><span className="cv grn">{fmt(result.liqCom)}</span></div>
             </div>
@@ -397,22 +398,22 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
 
           {result.receitaExtra > 0 && (
             <div className="eco eco-extra">
-              <div className="eco-extra-label">↑ aumento de ticket com SVA — {fmt(result.valorEbook)} por cliente</div>
+              <div className="eco-extra-label">↑ aumento de ticket — +{fmt(result.valorEbook)} por cliente</div>
               <div className="eco-in">
                 <div className="ecell">
-                  <div className="el">Receita nova mensal</div>
+                  <div className="el">Receita adicional mensal</div>
                   <div className="en grn">{fmt(result.receitaExtra)}</div>
-                  <div className="ed">{fmt(result.valorEbook)} × {clientes.toLocaleString('pt-BR')} clientes · isenta de imposto</div>
+                  <div className="ed">{fmt(result.valorEbook)} × {clientes.toLocaleString('pt-BR')} clientes</div>
                 </div>
                 <div className="ecell">
                   <div className="el">Ganho total mensal</div>
                   <div className="en grn">{fmt(result.ganhoTotal)}</div>
-                  <div className="ed">{fmt(result.receitaExtra)} nova receita + {fmt(result.eco)} economia fiscal</div>
+                  <div className="ed">{fmt(result.receitaExtra)} a mais no ticket + {fmt(result.eco)} menos em imposto</div>
                 </div>
                 <div className="ecell">
                   <div className="el">Ganho total anual</div>
                   <div className="en grn">{fmtK(result.ganhoTotalAnual)}</div>
-                  <div className="ed">receita SVA + economia fiscal com crescimento da base</div>
+                  <div className="ed">projetado com crescimento da base</div>
                 </div>
               </div>
             </div>
