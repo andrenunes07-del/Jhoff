@@ -234,7 +234,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
             <label>Clientes ativos na base</label>
             <div className="irow">
               <input
-                type="number" min={1} value={clientes}
+                type="number" min={1} value={clientes === 0 ? '' : clientes}
                 onChange={(e) => setClientes(parseInt(e.target.value) || 0)}
               />
             </div>
