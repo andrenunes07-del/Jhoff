@@ -249,7 +249,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
             <div className="irow">
               <span className="px">R$</span>
               <input
-                type="number" className="pi" min={1} value={ticket}
+                type="number" className="pi" min={1} value={ticket === 0 ? '' : ticket}
                 onChange={(e) => setTicket(parseFloat(e.target.value) || 0)}
               />
             </div>
@@ -278,7 +278,7 @@ export default function Simulator({ onRoiChange, onResult }: SimulatorProps) {
             <label>Crescimento médio mensal</label>
             <div className="irow">
               <input
-                type="number" className="suf" min={0} value={crescimento}
+                type="number" className="suf" min={0} value={crescimento === 0 ? '' : crescimento}
                 onChange={(e) => setCrescimento(parseInt(e.target.value) || 0)}
               />
               <span className="sx">clientes / mês</span>
